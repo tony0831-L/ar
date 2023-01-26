@@ -1,14 +1,13 @@
-// app/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import loadSlice from './slices/loadSlice';
-import pathSlice from './slices/path';
 import worldinfo from './slices/worldinfo';
+import lightEditor from './slices/lightEditor';
 
 export const store = configureStore({
   reducer: {
-    path:pathSlice,
     load:loadSlice,
-    worldinfo:worldinfo
+    worldinfo:worldinfo,
+    lightEditor:lightEditor
   },
 });
 

@@ -1,12 +1,7 @@
-import { useSelector } from 'react-redux'
-import data from '../dataSet/test.json'
-import { store } from '../libs/store'
-import { useState } from 'react';
-import { World, Light } from '../libs/worldInterfaces';
-import { useFrame } from '@react-three/fiber';
+import { Light } from '../libs/worldInterfaces';
 
-export const Lights: React.FC<{ lights: Light[] }> = (info: { lights: Light[] }) => {
-    console.log(info.lights)
+export const Lights: React.FC<{  lights: Light[] }> = (info: { lights: Light[] }) => {
+    //todo 控制props更新
     const Light = info.lights.map((light: Light, index: number) => {
         switch (light.type) {
             case "AmbientLight":
@@ -22,6 +17,7 @@ export const Lights: React.FC<{ lights: Light[] }> = (info: { lights: Light[] })
                 break;
         }
     })
+    
     return (
         <>
             {Light}

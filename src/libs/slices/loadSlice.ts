@@ -15,4 +15,4 @@ export const loadSlice = createSlice({
 
 export const { changeLoad } = loadSlice.actions
 
-export default loadSlice.reducer;
+export default loadSlice.reducer

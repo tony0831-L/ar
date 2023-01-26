@@ -51,8 +51,8 @@ export default function Example(path: path) {
                         {/* @ts-ignore */}
                         <Effects />
                         <Physics gravity={[0, -30, 0]}>
-                            <Models {...{models:world.models}} />
-                            <Lights {...{lights:world.lights}} />
+                            <Models {...{ mode:"example" , models:world.models}} />
+                            <Lights {...{ mode:"example" , lights:world.lights}} />
                             <Ground />
                             <Collisions {...{collisions:world.collisions}}/>
                             <Player />

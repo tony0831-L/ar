@@ -10,6 +10,7 @@ export const worldSlice = createSlice({
     reducers: {
         setWorldInfo: (state, action: PayloadAction<World>) => {
             state.info = <World>action.payload
+            console.log("setWorldInfo")
         }
     },
 });

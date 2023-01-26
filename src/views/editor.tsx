@@ -1,20 +1,20 @@
 import { Canvas } from "@react-three/fiber"
-import { KeyboardControls, Preload, Stars } from "@react-three/drei"
+import { KeyboardControls, Preload, Stars, } from "@react-three/drei"
 import { VRButton } from '@react-three/xr'
 import { Physics } from "@react-three/rapier"
 import { Ground } from "../libs/ground"
-import { Player } from "../libs/player"
-import Models from '../components/models'
+// import { Player } from "../libs/player"
+import {ModelsEditor} from '../components/modelsEditor'
 import Collisions from "../components/Collisions"
 import { Ui } from '../components/UIs'
-import Pointlock from "../components/PointerLockControls"
-import { Lights } from "../components/lights"
+import { FlyControl } from "../components/FlyControls"
+import { LightsEditor } from "../components/lightsEditor"
 import { Effects } from '../libs/effect'
-import { World,  } from "../libs/worldInterfaces"
+import { World } from "../libs/worldInterfaces"
 import { asyncGet } from "../libs/utils/fetch"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { setWorldInfo } from "../libs/slices/worldinfo"
+import { setLightInfo , clean} from "../libs/slices/lightEditor"
 
 export interface path {
     url: string
@@ -22,27 +22,22 @@ export interface path {
 
 export default function Editor(path: path) {
     const dispatch = useDispatch()
-    const [world, setworld] = useState<World>();
+    const [world, setworld] = useState<World>()
 
     if (!world) {
         asyncGet(path.url).then(info => {
-            console.log(info[0].light)
             const ownWorld: World = new World({
                 lights: info[0].light,
                 models: info[0].objModel,
                 collisions: info[0].collision
             })
             setworld(ownWorld)
-            dispatch(setWorldInfo(ownWorld))
+            dispatch(setLightInfo(ownWorld.lights))
         })
     }
 
     setTimeout(()=>{
-        console.log("clean")
-        let after = world!.clean()
-        console.log(after)
-        setworld(after)
-        dispatch(setWorldInfo(after))
+        dispatch(clean([]))
     },30000)
 
     return (
@@ -61,15 +56,18 @@ export default function Editor(path: path) {
                         <color attach="background" args={["#212124"]} />
                         {/* @ts-ignore */}
                         <Effects />
-                        <Physics gravity={[0, -30, 0]}>
-                            <Models {...{models:world.models}} />
-                            <Lights {...{lights:world.lights}} />
+                        <Physics gravity={[0, 0, 0]}>
+                            <ModelsEditor {...{ models:world.models }} />
+                            <LightsEditor {...{ lights: world.lights }} />
                             <Ground />
-                            <Collisions {...{collisions:world.collisions}}/>
-                            <Player />
+                            <Collisions {...{ collisions: world.collisions }} />
                         </Physics>
                         <Preload all />
-                        <Pointlock />
+                        <FlyControl {...{
+                            setting: {
+                                speed: 10
+                            }
+                        }} />
                         <Ui />
                     </KeyboardControls>
                 </Canvas>

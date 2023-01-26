@@ -1,13 +1,7 @@
-export interface lightInfo{
-    decay: number
-    type: string
-    color: string
-    intensity: number
-    position : Array<number>
-    Shadow:boolean
-}
+import { modelInfo , lightInfo , collisionInfo } from "./interfaces/worldInfo"
 
 export class Light implements lightInfo{
+    _id: string
     decay!: number
     type!: string
     color!: string
@@ -15,6 +9,7 @@ export class Light implements lightInfo{
     position!: number[]
     Shadow!: boolean
     constructor(info:lightInfo){
+        this._id = info._id
         this.decay = info.decay
         this.type = info.type
         this.color = info.color
@@ -22,19 +17,11 @@ export class Light implements lightInfo{
         this.position = info.position
         this.Shadow = info.Shadow
     }
-}
-
-export interface modelInfo{
-    type:string
-    url: string
-    scale:number
-    position: Array<number>
-    rotation: Array<number>
-    name: string
-    anime:string
+    
 }
 
 export class Model implements modelInfo{
+    _id: string
     type:string
     url!: string
     scale!: number
@@ -43,6 +30,7 @@ export class Model implements modelInfo{
     name!: string
     anime!: string
     constructor(info:modelInfo){
+        this._id = info._id
         this.type = info.type
         this.url = info.url
         this.scale = info.scale
@@ -53,18 +41,8 @@ export class Model implements modelInfo{
     }
 }
 
-
-export interface collisionInfo{
-    clickable:boolean,
-    scale:Array<number>
-    position:Array<number>
-    rotation:Array<number>
-    onClick:string
-    onPointerOver:string
-    onPointerOut:string
-}
-
 export class Collision implements collisionInfo{
+    _id: string
     clickable =  false
     scale: number[]
     position: number[]
@@ -73,6 +51,7 @@ export class Collision implements collisionInfo{
     onPointerOver = ""
     onPointerOut = ""
     constructor(info:collisionInfo){
+        this._id = info._id
         this.clickable = info.clickable
         this.scale = info.scale
         this.position = info.position
@@ -82,7 +61,6 @@ export class Collision implements collisionInfo{
         this.onPointerOut = info.onPointerOver
     }
 }
-
 
 export interface worldinfo{
     lights:Array<Light>
@@ -103,6 +81,7 @@ export class World implements worldinfo{
         info.map(light=>{
             this.lights.push(new Light(
                 {
+                    _id: light._id,
                     decay: light.decay,
                     type: light.type,
                     color: light.color,
@@ -117,6 +96,7 @@ export class World implements worldinfo{
         info.map(model=>{
             this.models.push(new Model(
                 {
+                    _id: model._id,
                     type:model.type,
                     url: model.url,
                     scale: model.scale,
@@ -132,6 +112,7 @@ export class World implements worldinfo{
         info.map(collision=>{
             this.collisions.push(new Collision(
                 {
+                    _id: collision._id,
                     clickable :  collision.clickable,
                     scale: collision.scale,
                     position: collision.position,

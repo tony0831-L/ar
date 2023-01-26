@@ -6,24 +6,24 @@ import { changeLoad } from '../libs/slices/loadSlice'
 import { Model } from "../libs/worldInterfaces";
 
 
-function Loader() {
-  const { active, progress, item } = useProgress()
-  const dispatch = useDispatch()
-  if (!active) {
-    dispatch(changeLoad(true))
-  }
-  return (
-    <Html>
-      <div id="container">
-        <p>Loading items</p>
-        <progress id="progress" max="100" value={progress}></progress>
-        <label id="label" htmlFor="progress">Loading:{item}</label>
-      </div>
-    </Html>
-  )
-}
+// function Loader() {
+//   const { active, progress, item } = useProgress()
+//   const dispatch = useDispatch()
+//   if (!active) {
+//     dispatch(changeLoad(true))
+//   }
+//   return (
+//     <Html>
+//       <div id="container">
+//         <p>Loading items</p>
+//         <progress id="progress" max="100" value={progress}></progress>
+//         <label id="label" htmlFor="progress">Loading:{item}</label>
+//       </div>
+//     </Html>
+//   )
+// }
 
-export const Models: React.FC<{ models:Model[] }> = (info: { models:Model[] }) => {
+export const ModelsEditor: React.FC<{ models:Model[] }> = (info: { models:Model[] }) => {
   const model = info.models.map((obj:Model,index:number)=>{
     switch (obj.type) {
         case "GLB":
@@ -37,11 +37,9 @@ export const Models: React.FC<{ models:Model[] }> = (info: { models:Model[] }) =
   })
 
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={null}>
       {model}
       <Preload all />
     </Suspense>
   )
 };
-
-export default Models
