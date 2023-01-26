@@ -8,8 +8,10 @@ export default function Pointlock(){
   const overlaydom = useRef<HTMLDivElement>(null)
 
   useEffect(()=>{
-    overlaydom.current!.style.display= "none"
-    overlaydom.current!.style.transform = "translate(-50%,-50%)"
+    if (overlaydom) {
+      overlaydom.current!.style.display= "none"
+      overlaydom.current!.style.transform = "translate(-50%,-50%)"
+    }
     store.subscribe(test)
   })
 

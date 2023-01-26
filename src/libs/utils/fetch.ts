@@ -1,4 +1,3 @@
-import {worldinfo , light , model ,collision} from '../worldInterfaces'
 
 export async function asyncGet(api:string){
     const res:Response = await fetch(api,{

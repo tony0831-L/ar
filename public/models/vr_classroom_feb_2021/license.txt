@@ -1,8 +1,0 @@
-Model Information:
-* title:	VR ClassRoom Feb 2021
-* source:	https://sketchfab.com/3d-models/vr-classroom-feb-2021-0d658085eef64051916d9591acd2d20a
-* author:	BehNaM (https://sketchfab.com/GbehnamG)
-
-Model License:
-* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
-* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

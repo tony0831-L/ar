@@ -1,9 +1,5 @@
-import { useLoader, } from "@react-three/fiber";
-import { GLTFLoader, } from "three/examples/jsm/loaders/GLTFLoader";
 import { useGLTF,useTexture, useAnimations, useProgress } from "@react-three/drei"
 import { useEffect, useRef } from "react";
-import { useFrame } from "@react-three/fiber"
-import { changeLoad } from './slices/loadSlice'
 
 interface modelInfo{
     url: string
@@ -14,10 +10,11 @@ interface modelInfo{
     anime?:string
 }
 
+const url = 'http://ininder.peiyu.me:3306/model/getModel/?path='
 
 export function GltfModel(info:modelInfo) {
     const objRef = useRef()
-    const { nodes, animations , scene} = useGLTF(`./models/${info.url}/scene.gltf`)
+    const { nodes, animations , scene} = useGLTF(`${url}${info.url}`)
     const { ref, actions, names } = useAnimations(animations,objRef)
     scene.name = info.name
     useEffect(()=>{
@@ -36,9 +33,11 @@ export function GltfModel(info:modelInfo) {
     )
 }
 
+
+
 export function GlbModel(info:modelInfo) {
     const objRef = useRef()
-    const { nodes, animations , scene} = useGLTF(`./models/${info.url}/scene.glb`)
+    const { nodes, animations , scene} = useGLTF(`${url}${info.url}`)
     const { ref, actions, names } = useAnimations(animations,objRef)
     scene.name = info.name
     useEffect(()=>{

@@ -1,21 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { world } from "../worldInterfaces";
+import { World } from "../worldInterfaces";
 
 export const worldSlice = createSlice({
     name: "path",
     initialState: {
-        info: <world>{},
+        info: <World>{},
     },
     reducers: {
-        setWorld: (state, action: PayloadAction<world>) => {
-            state.info = <world>action.payload
+        setWorldInfo: (state, action: PayloadAction<World>) => {
+            state.info = <World>action.payload
         }
     },
 });
 
-export const { setWorld } = worldSlice.actions
-
+export const { setWorldInfo } = worldSlice.actions
 export default worldSlice.reducer
 
 
