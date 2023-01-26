@@ -13,11 +13,7 @@ export const LightsEditor: React.FC<{  lights: Light[] }> = (info: { lights: Lig
             let ans = false
             const temp = store.getState().lightEditor.info
             if (temp.length != Light.length) {
-                console.log(temp.length)
-                console.log(Light.length)
                 setLight(temp)
-                console.log(Light)
-                console.log("更新")
                 return
             }
             Light.map((light,index)=>{
@@ -27,9 +23,8 @@ export const LightsEditor: React.FC<{  lights: Light[] }> = (info: { lights: Lig
             })
             if (ans){
                 setLight(temp)
-                console.log("更新")
             }
-        })  
+        }) 
     })
     return (
         <>
@@ -41,3 +36,4 @@ export const LightsEditor: React.FC<{  lights: Light[] }> = (info: { lights: Lig
         </>
     )
 };
+

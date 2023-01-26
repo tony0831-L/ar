@@ -10,7 +10,7 @@ import { Ui } from '../components/UIs'
 import Pointlock from "../components/PointerLockControls"
 import { Lights } from "../components/lights"
 import { Effects } from '../libs/effect'
-import { World,  } from "../libs/worldInterfaces"
+import { World, } from "../libs/worldInterfaces"
 import { asyncGet } from "../libs/utils/fetch"
 import { useState } from "react"
 
@@ -51,10 +51,10 @@ export default function Example(path: path) {
                         {/* @ts-ignore */}
                         <Effects />
                         <Physics gravity={[0, -30, 0]}>
-                            <Models {...{ mode:"example" , models:world.models}} />
-                            <Lights {...{ mode:"example" , lights:world.lights}} />
+                            <Models {...{ mode: "example", models: world.models }} />
+                            <Lights {...{ mode: "example", lights: world.lights }} />
                             <Ground />
-                            <Collisions {...{collisions:world.collisions}}/>
+                            <Collisions {...{ collisions: world.collisions }} />
                             <Player />
                         </Physics>
                         <Preload all />
