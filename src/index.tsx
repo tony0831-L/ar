@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Stats } from '@react-three/drei'
 import './assets/index.scss'
 import App from './App'
 const root = ReactDOM.createRoot(
@@ -10,6 +9,5 @@ const root = ReactDOM.createRoot(
 root.render(
   <>
     <App />
-    <Stats />
   </>
 );

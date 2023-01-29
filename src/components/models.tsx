@@ -1,10 +1,9 @@
 import { GlbModel, GltfModel } from "../libs/modelLoader"
-import { Suspense, useState } from "react";
+import { ReactNode, Suspense, useState } from "react";
 import { Html, Preload, useGLTF, useProgress } from "@react-three/drei"
 import { useDispatch, useSelector } from 'react-redux'
 import { changeLoad } from '../libs/slices/loadSlice'
 import { Model } from "../libs/worldInterfaces";
-
 
 function Loader() {
   const { active, progress, item } = useProgress()
@@ -23,7 +22,7 @@ function Loader() {
   )
 }
 
-export const Models: React.FC<{ models:Model[] }> = (info: { models:Model[] }) => {
+export const Models: React.FC<{ models:Model[] , loader?:ReactNode }> = (info: { models:Model[] , loader?:ReactNode }) => {
   const model = info.models.map((obj:Model,index:number)=>{
     switch (obj.type) {
         case "GLB":
@@ -37,7 +36,7 @@ export const Models: React.FC<{ models:Model[] }> = (info: { models:Model[] }) =
   })
 
   return (
-    <Suspense fallback={<Loader/>}>
+    <Suspense fallback={info.loader?info.loader:<Loader/>}>
       {model}
       <Preload all />
     </Suspense>

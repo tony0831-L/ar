@@ -4,7 +4,7 @@ import { VRButton } from '@react-three/xr'
 import { Physics } from "@react-three/rapier"
 import { Ground } from "../libs/ground"
 // import { Player } from "../libs/player"
-import {ModelsEditor} from '../components/modelsEditor'
+import { ModelsEditor } from '../components/modelsEditor'
 import Collisions from "../components/Collisions"
 import { Ui } from '../components/UIs'
 import { FlyControl } from "../components/FlyControls"
@@ -14,7 +14,8 @@ import { World } from "../libs/worldInterfaces"
 import { asyncGet } from "../libs/utils/fetch"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { setLightInfo , clean} from "../libs/slices/lightEditor"
+import { setLightInfo } from "../libs/slices/lightEditor"
+import { setModelinfo } from "../libs/slices/modelEditor"
 
 export interface path {
     url: string
@@ -23,7 +24,7 @@ export interface path {
 export default function Editor(path: path) {
     const dispatch = useDispatch()
     const [world, setworld] = useState<World>()
-
+    const [loading, setLoading] = useState<string>("fetching")
     if (!world) {
         asyncGet(path.url).then(info => {
             const ownWorld: World = new World({
@@ -33,15 +34,13 @@ export default function Editor(path: path) {
             })
             setworld(ownWorld)
             dispatch(setLightInfo(ownWorld.lights))
+            dispatch(setModelinfo(ownWorld.models))
         })
     }
 
-    setTimeout(()=>{
-        dispatch(clean([]))
-    },30000)
-
     return (
         <>
+            <Ui {...{ progress: loading }} />
             {world ?
                 <Canvas shadows camera={{ fov: 70 }} gl={{ antialias: true }}>
                     <KeyboardControls
@@ -57,8 +56,8 @@ export default function Editor(path: path) {
                         {/* @ts-ignore */}
                         <Effects />
                         <Physics gravity={[0, 0, 0]}>
-                            <ModelsEditor {...{ models:world.models }} />
-                            <LightsEditor {...{ lights: world.lights }} />
+                            <ModelsEditor {...{ models: world.models, setLoading: setLoading }} />
+                            <LightsEditor {...{}} />
                             <Ground />
                             <Collisions {...{ collisions: world.collisions }} />
                         </Physics>
@@ -68,7 +67,6 @@ export default function Editor(path: path) {
                                 speed: 10
                             }
                         }} />
-                        <Ui />
                     </KeyboardControls>
                 </Canvas>
                 : null

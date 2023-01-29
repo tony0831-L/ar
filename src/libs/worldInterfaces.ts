@@ -1,7 +1,7 @@
 import { modelInfo , lightInfo , collisionInfo } from "./interfaces/worldInfo"
 
 export class Light implements lightInfo{
-    _id: string
+    _id!: string
     decay!: number
     type!: string
     color!: string

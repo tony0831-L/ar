@@ -4,36 +4,38 @@ import { useEffect, useState } from 'react';
 import { World, Light } from '../libs/worldInterfaces';
 import { useFrame } from '@react-three/fiber';
 import { Lights } from './lights';
+import { lightOff ,cleanLight } from '../libs/slices/lightEditor';
+import { selectAllLights , selectLightId } from '../libs/slices/lightEditor';
 
-export const LightsEditor: React.FC<{  lights: Light[] }> = (info: { lights: Light[] }) => {
-    const [Light, setLight] = useState<Light[]>([])
+export const LightsEditor: React.FC<{}> = () => {
+    const Light = useSelector(selectAllLights)
+    const [id, updateId] = useState<string>()
     useEffect(()=>{
-        setLight(store.getState().lightEditor.info)
-        store.subscribe(()=>{
-            let ans = false
-            const temp = store.getState().lightEditor.info
-            if (temp.length != Light.length) {
-                setLight(temp)
-                return
-            }
-            Light.map((light,index)=>{
-                if(light._id != Light[index]._id){
-                    ans = true
-                }
-            })
-            if (ans){
-                setLight(temp)
-            }
-        }) 
-    })
+        updateId(id)
+    },[useSelector(selectLightId)])
     return (
         <>
             {
-                Light.length>0?
-                <Lights {...{ mode: "example", lights: Light }} />
-                :null
+                Light.length > 0 ?
+                    <Lights {...{lights: Light }} />
+                    : null
             }
         </>
     )
 };
 
+export const LightsControl: React.FC<{}> = (info: {}) => {
+    const dispatch = useDispatch()
+    const clean = () => {
+        dispatch(lightOff())
+        console.log("click")
+    }
+    return (
+        <div id='lightsControl' onClick={() => {
+            console.log("click")
+            clean()
+        }}>
+            cleanLight
+        </div>
+    )
+};

@@ -1,11 +1,19 @@
-import { Html } from "@react-three/drei"
+import { Stats } from "@react-three/drei"
+import { LightsControl } from "./lightsEditor"
+import { ModelsControl } from "./modelsEditor"
 
-export function Ui():JSX.Element {
+export const Ui: React.FC<{ progress:string }> = (info: { progress:string }) => {
+  //todo 寫控制開關
     return (
-      <Html>
-        <div id="UI">
+      <div id="UI">
+        <Stats />
+        <LightsControl />
+          <p>{info.progress}</p>
+        <ModelsControl />
+        <div id="editorOverlayBtn">
+          click to control camera
         </div>
-      </Html>
+      </div>
     )
 }
 

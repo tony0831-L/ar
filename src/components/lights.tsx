@@ -1,6 +1,10 @@
+import { useFrame } from '@react-three/fiber';
+import { useEffect, useRef, useState } from 'react';
 import { Light } from '../libs/worldInterfaces';
 
+
 export const Lights: React.FC<{  lights: Light[] }> = (info: { lights: Light[] }) => {
+    
     //todo 控制props更新
     const Light = info.lights.map((light: Light, index: number) => {
         switch (light.type) {

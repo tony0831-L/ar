@@ -59,7 +59,6 @@ export default function Example(path: path) {
                         </Physics>
                         <Preload all />
                         <Pointlock />
-                        <Ui />
                     </KeyboardControls>
                 </Canvas>
                 : null

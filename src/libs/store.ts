@@ -1,13 +1,15 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore  } from '@reduxjs/toolkit';
 import loadSlice from './slices/loadSlice';
 import worldinfo from './slices/worldinfo';
 import lightEditor from './slices/lightEditor';
+import modelEditor from './slices/modelEditor';
 
 export const store = configureStore({
   reducer: {
     load:loadSlice,
     worldinfo:worldinfo,
-    lightEditor:lightEditor
+    lightEditor:lightEditor,
+    modelEditor:modelEditor
   },
 });
 
