@@ -1,6 +1,6 @@
 import { useFrame } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
-import { Light } from '../libs/worldInterfaces';
+import { Light } from '../../libs/interfaces/worldInterfaces';
 
 
 export const Lights: React.FC<{  lights: Light[] }> = (info: { lights: Light[] }) => {

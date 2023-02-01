@@ -1,12 +1,12 @@
-import { GlbModel, GltfModel } from "../libs/modelLoader"
+import { GlbModel, GltfModel } from "../../libs/objClass/modelLoader"
 import { Suspense, useEffect, useState } from "react";
 import { Html, Preload, useGLTF, useProgress } from "@react-three/drei"
 import { useDispatch, useSelector } from 'react-redux'
-import { Model } from "../libs/worldInterfaces";
-import { store } from "../libs/store";
-import { pushModel } from "../libs/slices/modelEditor";
-import { selectAllModels, selectModelId } from "../libs/slices/modelEditor";
-import Models from "./models";
+import { Model } from "../../libs/interfaces/worldInterfaces";
+import { store } from "../../libs/utils/store";
+import { pushModel } from "../../libs/slices/modelEditor";
+import { selectAllModels, selectModelId } from "../../libs/slices/modelEditor";
+import Models from "../objs/models";
 
 
 // export const ModelsEditor: React.FC<{ models:Model[] , setLoading:React.Dispatch<React.SetStateAction<string>> }> = (info: { models:Model[] , setLoading:React.Dispatch<React.SetStateAction<string>> }) => {
@@ -42,10 +42,12 @@ import Models from "./models";
 export const ModelsEditor: React.FC<{ setLoading: React.Dispatch<React.SetStateAction<string>> }> = (info: { setLoading: React.Dispatch<React.SetStateAction<string>> }) => {
   const Model = useSelector(selectAllModels)
   const [id, updateId] = useState<string>()
+  
   useEffect(() => {
     console.log("model")
     updateId(id)
   }, [useSelector(selectModelId)])
+
   function Loader() {
     const { active, progress, item } = useProgress()
     info.setLoading(`${progress}% loading: ${item}`)

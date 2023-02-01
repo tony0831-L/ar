@@ -1,6 +1,6 @@
 import { createSlice , nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Light } from "../worldInterfaces";
+import { Light } from "../interfaces/worldInterfaces";
 
 export const lightEditorSlice = createSlice({
     name: "LightEditor",

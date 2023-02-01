@@ -14,5 +14,5 @@ export const loadSlice = createSlice({
 });
 
 export const { changeLoad } = loadSlice.actions
-
+export const selectLoadState = (state: any) => state['load'].loaded
 export default loadSlice.reducer

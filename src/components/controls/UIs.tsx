@@ -1,6 +1,6 @@
 import { Stats } from "@react-three/drei"
-import { LightsControl } from "./lightsEditor"
-import { ModelsControl } from "./modelsEditor"
+import { LightsControl } from "../editor/lightsEditor"
+import { ModelsControl } from "../editor/modelsEditor"
 
 export const Ui: React.FC<{ progress:string }> = (info: { progress:string }) => {
   //todo 寫控制開關

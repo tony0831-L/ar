@@ -1,23 +1,75 @@
-import { XR, ARButton, Controllers  } from '@react-three/xr'
-import { Canvas } from '@react-three/fiber'
-import { useState } from 'react'
+import { Canvas, useFrame } from "@react-three/fiber"
+import { OrbitControls, Stats, PositionalAudio } from "@react-three/drei"
+import { ARButton, XR } from '@react-three/xr'
+import { World } from "../libs/interfaces/worldInterfaces"
+import { asyncGet } from "../libs/utils/fetch"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setLightInfo } from "../libs/slices/lightEditor"
+import { setModelinfo } from "../libs/slices/modelEditor"
+import { Lights } from "../components/objs/lights"
+import { Recorder } from "../libs/utils/recorder"
+import { init } from "../libs/slices/RecorderSlice"
+import { selectLoadState } from "../libs/slices/loadSlice"
+import { Sound } from "../components/objs/sund"
+import { ZapparCamera, ImageTracker, ZapparCanvas } from '@zappar/zappar-react-three-fiber';
+import { GlbModel } from "../libs/objClass/modelLoader"
+const targetFile = new URL('../assets/test.zpt', import.meta.url).href;
 
-export default function AR() {
-    const [color, updateColor] = useState<string>("blue")
-    return (
-        <>
-          <ARButton />
-          <Canvas>
-            <XR>
-              <Controllers />
-              <mesh onClick={()=>{
-                updateColor("red")
-              }}>
-                <boxGeometry />
-                <meshBasicMaterial color={color} />
-              </mesh>
-            </XR>
-          </Canvas>
-        </>
-      )
+export interface path {
+  url: string
+}
+
+export default function AR(path: path) {
+  const dispatch = useDispatch()
+  const [world, setworld] = useState<World>()
+  const [mic, setMic] = useState<boolean>(true)
+  const [buffer, setBuffer] = useState<string>()
+
+  if (!world) {
+    asyncGet(path.url).then(info => {
+      const ownWorld: World = new World({
+        lights: info.light,
+        models: info.objModel,
+        collisions: info.collision
+      })
+      setworld(ownWorld)
+      dispatch(setLightInfo(ownWorld.lights))
+      dispatch(setModelinfo(ownWorld.models))
+      dispatch(init())
+    })
+  }
+
+  useEffect(() => {
+    setMic(!mic)
+  }, [useSelector(selectLoadState)])
+
+  return (
+    <>
+      <Recorder {...{ setBuffer: setBuffer }} />
+      {/* <Stats /> */}
+      {world ?
+        <ZapparCanvas>
+          <ZapparCamera />
+          <ImageTracker
+            onNotVisible={(anchor) => console.log(`Not visible ${anchor.id}`)}
+            onNewAnchor={(anchor) => console.log(`New anchor ${anchor.id}`)}
+            onVisible={(anchor) => console.log(`Visible ${anchor.id}`)}
+            targetImage={targetFile}
+          >
+            <GlbModel type={"GLB"} _id={"63d7ccba125c7e64bcc82ce1"} url={"Chatbot Avatar A/AvatarA_talking_glb.glb"} scale={1} position={[0, -0.8, -5]} rotation={[0, 0, 0]} name={"wei yuan"} anime={"Armature|mixamo.com|Layer0"} key={"63d8c1a35a1251d714880b85"} onPointerOver={null} onPointerOut={null} onClick={null} />
+          </ImageTracker>
+          <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
+          {
+            buffer?
+              <Sound raw={buffer} />
+            :null
+          }
+        </ZapparCanvas>
+        : null
+      }
+
+    </>
+  )
+
 }

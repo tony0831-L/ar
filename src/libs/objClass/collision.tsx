@@ -2,36 +2,30 @@ import * as THREE from "three"
 import { useRef, useState } from "react"
 import { useFrame } from "@react-three/fiber"
 import { CapsuleCollider, Debug, RigidBody, useRapier } from "@react-three/rapier"
+import { collisionInfo } from "../interfaces/worldInfo"
 
-
-interface colliderInfo{
-    scale:[x:number,y:number,z:number]
-    position:[x:number,y:number,z:number]
-    onClick:Function
-    onPointerOver:Function
-    onPointerOut:Function
-    rotation?: [x:number,y:number,z:number]
-    material?:boolean 
-}
-
-export function Collision(props:colliderInfo) {
+export function Collision(props:collisionInfo) {
     const meshRef:any = useRef()
     const [hovered, hover] = useState(false)
+
+    const onPointerOut = props.onPointerOut==null? ()=>{}:props.onPointerOut
+    const onPointerOver = props.onPointerOver==null? ()=>{}:props.onPointerOver
+
     return (
         <>
             <RigidBody colliders="cuboid" type="fixed">
                 <mesh
                     ref={meshRef}
-                    scale={props.scale}
-                    position ={props.position}
-                    rotation = {props.rotation?props.rotation:[0,0,0]}
-                    onClick={(event)=>{props.onClick(event)}}
+                    scale={[props.scale[0],props.scale[1],props.scale[2]]}
+                    position ={[props.position[0],props.position[1],props.position[2]]}
+                    rotation = {[props.rotation[0],props.rotation[1],props.rotation[2]]}
+                    onClick={(event)=>{}}
                     onPointerOver={(event)=>{
-                        props.onPointerOver(event)
+                        onPointerOver(event)
                         hover(true)
                     }}
                     onPointerOut={(event)=>{
-                        props.onPointerOut(event)
+                        onPointerOut(event)
                         hover(false)
                     }}>
                     <boxGeometry args={[1, 1, 1]} />

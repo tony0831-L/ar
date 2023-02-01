@@ -17,7 +17,10 @@ export interface modelInfo{
     position: Array<number>
     rotation: Array<number>
     name: string
-    anime:string
+    anime:string | null
+    onPointerOver:Function | null
+    onPointerOut:Function | null
+    onClick:Function | null
 }
 
 export interface collisionInfo{
@@ -26,8 +29,9 @@ export interface collisionInfo{
     scale:Array<number>
     position:Array<number>
     rotation:Array<number>
-    onClick:string
-    onPointerOver:string
-    onPointerOut:string
+    onClick:Function | null
+    onPointerOver:Function | null
+    onPointerOut:Function | null
+    material:string | null
 }
 

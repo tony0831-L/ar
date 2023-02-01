@@ -1,6 +1,6 @@
 import { createSlice , nanoid } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Model } from "../worldInterfaces";
+import { Model } from "../interfaces/worldInterfaces";
 
 export const modelEditorSlice = createSlice({
     name: "modelEditorSlice",
@@ -34,7 +34,10 @@ export const modelEditorSlice = createSlice({
                 ],
                 "name": "ccc1",
                 "anime": "walk",
-                "_id": "63d28ac451ce9ac6948cb4eg"
+                "_id": "63d28ac451ce9ac6948cb4eg",
+                "onClick":null,
+                "onPointerOut":null,
+                "onPointerOver":null
             }))
             state.id = nanoid()
         }

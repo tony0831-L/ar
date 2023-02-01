@@ -2,15 +2,15 @@ import { Canvas } from "@react-three/fiber"
 import { KeyboardControls, Preload, Stars } from "@react-three/drei"
 import { VRButton } from '@react-three/xr'
 import { Physics } from "@react-three/rapier"
-import { Ground } from "../libs/ground"
-import { Player } from "../libs/player"
-import Models from '../components/models'
-import Collisions from "../components/Collisions"
-import { Ui } from '../components/UIs'
-import Pointlock from "../components/PointerLockControls"
-import { Lights } from "../components/lights"
-import { Effects } from '../libs/effect'
-import { World, } from "../libs/worldInterfaces"
+import { Ground } from "../libs/objClass/ground"
+import { Player } from "../libs/objClass/player"
+import Models from '../components/objs/models'
+import Collisions from "../components/objs/Collisions"
+import { Ui } from '../components/controls/UIs'
+import Pointlock from "../components/controls/PointerLockControls"
+import { Lights } from "../components/objs/lights"
+import { Effects } from '../libs/objClass/effect'
+import { World, } from "../libs/interfaces/worldInterfaces"
 import { asyncGet } from "../libs/utils/fetch"
 import { useState } from "react"
 

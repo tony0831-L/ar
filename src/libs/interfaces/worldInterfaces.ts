@@ -1,4 +1,4 @@
-import { modelInfo , lightInfo , collisionInfo } from "./interfaces/worldInfo"
+import { modelInfo , lightInfo , collisionInfo } from "./worldInfo"
 
 export class Light implements lightInfo{
     _id!: string
@@ -28,7 +28,10 @@ export class Model implements modelInfo{
     position: Array<number>
     rotation!: Array<number>
     name!: string
-    anime!: string
+    anime!: string | null
+    onPointerOver: Function | null
+    onPointerOut: Function | null
+    onClick: Function | null
     constructor(info:modelInfo){
         this._id = info._id
         this.type = info.type
@@ -37,8 +40,12 @@ export class Model implements modelInfo{
         this.position = info.position
         this.rotation = info.rotation
         this.name = info.name
-        this.anime = info.anime
+        this.anime =  info.anime? info.anime: null
+        this.onClick = info.onClick?info.onClick:null
+        this.onPointerOver = info.onPointerOver?info.onPointerOver:null
+        this.onPointerOut = info.onPointerOut?info.onPointerOut:null
     }
+
 }
 
 export class Collision implements collisionInfo{
@@ -47,19 +54,22 @@ export class Collision implements collisionInfo{
     scale: number[]
     position: number[]
     rotation: number[]
-    onClick = ""
-    onPointerOver = ""
-    onPointerOut = ""
+    onClick: Function | null
+    onPointerOver: Function | null
+    onPointerOut: Function | null
+    material: string | null
     constructor(info:collisionInfo){
         this._id = info._id
         this.clickable = info.clickable
         this.scale = info.scale
         this.position = info.position
         this.rotation = info.rotation
-        this.onClick = info.onClick
-        this.onPointerOver = info.onPointerOver
-        this.onPointerOut = info.onPointerOver
+        this.onClick = info.onClick?info.onClick:null
+        this.onPointerOver = info.onPointerOver?info.onClick:null
+        this.onPointerOut = info.onPointerOut?info.onClick:null
+        this.material = info.material?info.material:null
     }
+    
 }
 
 export interface worldinfo{
@@ -103,7 +113,10 @@ export class World implements worldinfo{
                     position: model.position,
                     rotation: model.rotation,
                     name: model.name,
-                    anime: model.anime
+                    anime: model.anime,
+                    onPointerOver: model.onPointerOver?model.onPointerOver:null,
+                    onPointerOut:model.onPointerOut?model.onPointerOut:null,
+                    onClick:model.onClick?model.onClick:null,
                 }
             ))
         })
@@ -117,9 +130,10 @@ export class World implements worldinfo{
                     scale: collision.scale,
                     position: collision.position,
                     rotation: collision.rotation,
-                    onClick : collision.onClick,
-                    onPointerOver : collision.onPointerOver,
-                    onPointerOut : collision.onPointerOut,
+                    onClick : collision.onClick?collision.onClick:null,
+                    onPointerOver : collision.onPointerOver?collision.onPointerOver:null,
+                    onPointerOut : collision.onPointerOut?collision.onPointerOut:null,
+                    material:collision.material?collision.material:null,
                 }
             ))
         })

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { World } from "../worldInterfaces";
+import { World } from "../interfaces/worldInterfaces";
 
 export const worldSlice = createSlice({
     name: "path",
