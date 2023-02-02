@@ -14,7 +14,7 @@ import { selectLoadState } from "../libs/slices/loadSlice"
 import { Sound } from "../components/objs/sund"
 import { ZapparCamera, ImageTracker, ZapparCanvas } from '@zappar/zappar-react-three-fiber';
 import { GlbModel } from "../libs/objClass/modelLoader"
-const targetFile = new URL('../assets/test.zpt', import.meta.url).href;
+const targetFile = new URL('../assets/test2.zpt', import.meta.url).href;
 
 export interface path {
   url: string
@@ -25,7 +25,8 @@ export default function AR(path: path) {
   const [world, setworld] = useState<World>()
   const [mic, setMic] = useState<boolean>(true)
   const [buffer, setBuffer] = useState<string>()
-  
+  const [show, setShow] = useState<boolean>(false)
+
 
   if (!world) {
     asyncGet(path.url).then(info => {
@@ -69,18 +70,29 @@ export default function AR(path: path) {
         <ZapparCanvas>
           <ZapparCamera />
           <ImageTracker
-            onNotVisible={(anchor) => console.log(`Not visible ${anchor.id}`)}
+            onNotVisible={(anchor) => {
+              // alert("onNotVisible")
+              if (show) {
+                setShow(false)
+              }
+            }}
             onNewAnchor={(anchor) => console.log(`New anchor ${anchor.id}`)}
-            onVisible={(anchor) => console.log(`Visible ${anchor.id}`)}
+            onVisible={(anchor) => {
+              // alert("onVisible")
+              if (!show) {
+                setShow(true)
+              }
+            }}
             targetImage={targetFile}
           >
-            <GlbModel type={"GLB"} _id={"63d7ccba125c7e64bcc82ce1"} url={"Chatbot Avatar A/AvatarA_talking_glb.glb"} scale={1} position={[0, -0.8, -5]} rotation={[0, 0, 0]} name={"wei yuan"} anime={"Armature|mixamo.com|Layer0"} key={"63d8c1a35a1251d714880b85"} onPointerOver={null} onPointerOut={null} onClick={null} />
+            {/* <GlbModel type={"GLB"} _id={"63d7ccba125c7e64bcc82ce1"} url={"Chatbot Avatar A/AvatarA_talking_glb.glb"} scale={1} position={[0, -0.8, -5]} rotation={[0, 0, 0]} name={"wei yuan"} anime={"Armature|mixamo.com|Layer0"} key={"63d8c1a35a1251d714880b85"} onPointerOver={null} onPointerOut={null} onClick={null} /> */}
+            <GlbModel type={"GLB"} _id={"63d7ccba125c7e64bcc82ce1"} url={"Chatbot Avatar A/AvatarA_talking_glb.glb"} scale={show?3.5:0} position={[0, -1.5, 0]} rotation={[0, 0, 0]} name={"wei yuan"} anime={"Armature|mixamo.com|Layer0"} key={"63d8c1a35a1251d714880b85"} onPointerOver={null} onPointerOut={null} onClick={null} />
           </ImageTracker>
           <directionalLight position={[2.5, 8, 5]} intensity={1.5} />
           {
-            buffer?
+            buffer ?
               <Sound raw={buffer} />
-            :null
+              : null
           }
         </ZapparCanvas>
         : null
