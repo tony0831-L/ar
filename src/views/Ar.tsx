@@ -25,6 +25,7 @@ export default function AR(path: path) {
   const [world, setworld] = useState<World>()
   const [mic, setMic] = useState<boolean>(true)
   const [buffer, setBuffer] = useState<string>()
+  
 
   if (!world) {
     asyncGet(path.url).then(info => {
@@ -43,6 +44,22 @@ export default function AR(path: path) {
   useEffect(() => {
     setMic(!mic)
   }, [useSelector(selectLoadState)])
+
+  const observer = new MutationObserver(() => {
+    if (document.body.children.length > 2) {
+      let ad = document.body.children[2]
+      if (ad != document.querySelector('.zappar-permission-request')) {
+        document.body.removeChild(ad)
+        observer.disconnect()
+        return
+      } {
+        return
+      }
+    }
+  })
+
+
+  observer.observe(document.body, { subtree: false, childList: true });
 
   return (
     <>

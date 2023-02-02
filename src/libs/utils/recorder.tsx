@@ -15,14 +15,17 @@ export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction
     const recorder = useSelector(selectRecorder)
     const buffer = useSelector(selectRecorderbuffer)
     const dispatch = useDispatch()
+    const [id, setId] = useState<string>("id-")
+    const [idDone, setIdDone] = useState<boolean>(false)
 
     const onClick = () => {
         if (recording) {
+            console.log(id)
             dispatch(stop((buffer: ArrayBuffer) => {
                 const out = encode(buffer)
                 asyncPost('https://dev.ethci.org/dialog/audio', {
                     audio: out,
-                    id: "test"
+                    id: id
                 }).then(res => {
                     if (res.audio.data.length == 0) {
                         return
@@ -44,12 +47,43 @@ export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction
         }
     }
 
+    const submit = () => {
+        let User = (id.substring(3))
+        if (User.length>0 && User.length<4) {
+            setId(User)
+            setIdDone(true)
+        }else{
+            alert("id cannot be empty")
+        }
+    }
 
     useEffect(() => {
     }, [useSelector(selectRecorderbuffer)])
 
     return (
         <>
+            {
+                !idDone ?
+                    <div id="id">
+                        <div id='id_input'>
+                            <p>login</p>
+                            <input type="text" value={id} onChange={(e) => {
+                                if (e.target.value.startsWith('id-')) {
+                                    let userID = e.target.value.substring(3)
+                                    if (userID == "") {
+                                        setId(e.target.value)
+                                    }else if(!isNaN(parseFloat(userID)) && isFinite(Number(userID)) && userID.length<4){
+                                        setId(e.target.value)
+                                    }
+                                }
+                            }} />
+                            <div id='submit' onClick={() => { submit() }}>
+                                submit
+                            </div>
+                        </div>
+                    </div>
+                    : null
+            }
             <div id="ARContainer">
                 <div id="mic" ref={ref} onClick={() => { onClick() }} >
                     {
@@ -64,11 +98,11 @@ export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction
                     }
                 </div>
                 {
-                        resText ?
-                            <div id='resText'>{resText}</div>
-                            :
-                            null
-                    }
+                    resText ?
+                        <div id='resText'>{resText}</div>
+                        :
+                        null
+                }
             </div>
         </>
     )
