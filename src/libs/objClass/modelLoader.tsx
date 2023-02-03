@@ -28,6 +28,7 @@ export function GltfModel(info: modelInfo) {
 
 
 export function GlbModel(info: modelInfo) {
+    //todo auto rig
     const objRef = useRef()
     const { nodes, animations, scene } = useGLTF(`${url}${info.url}`)
     const { ref, actions, names } = useAnimations(animations, objRef)

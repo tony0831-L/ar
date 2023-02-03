@@ -1,10 +1,10 @@
 export interface lightInfo{
     _id: string
-    decay: number
+    decay: number|string
     type: string
     color: string
-    intensity: number
-    position : Array<number>
+    intensity: number|string
+    position : Array<number|string>
     Shadow:boolean
 }
 

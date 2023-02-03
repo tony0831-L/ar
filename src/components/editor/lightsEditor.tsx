@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { World, Light } from '../../libs/interfaces/worldInterfaces';
 import { useFrame } from '@react-three/fiber';
 import { Lights } from '../objs/lights';
-import { lightOff ,cleanLight } from '../../libs/slices/lightEditor';
 import { selectAllLights , selectLightId } from '../../libs/slices/lightEditor';
 
 export const LightsEditor: React.FC<{}> = () => {
@@ -21,21 +20,5 @@ export const LightsEditor: React.FC<{}> = () => {
                     : null
             }
         </>
-    )
-};
-
-export const LightsControl: React.FC<{}> = (info: {}) => {
-    const dispatch = useDispatch()
-    const clean = () => {
-        dispatch(lightOff())
-        console.log("click")
-    }
-    return (
-        <div id='lightsControl' onClick={() => {
-            console.log("click")
-            clean()
-        }}>
-            cleanLight
-        </div>
     )
 };

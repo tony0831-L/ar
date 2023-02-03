@@ -8,8 +8,8 @@ export default function App() {
   return (
     <Provider store={store}>
       {/* <Example url={'http://ininder.peiyu.me:3306/test/find'} /> */}
-      {/* <Editor url={'https://dev.ethci.org/test/find?id=63d28ac451ce9ac6948cb4f0'}/> */}
-      <AR url={'https://dev.ethci.org/test/find?id=63d8c1a35a1251d714880b87'}/>
+      <Editor url={'https://dev.ethci.org/test/find?id=63d28ac451ce9ac6948cb4f0'}/>
+      {/* <AR url={'https://dev.ethci.org/test/find?id=63d8c1a35a1251d714880b87'}/> */}
     </Provider>
   )
 }

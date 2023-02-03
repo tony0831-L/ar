@@ -6,7 +6,7 @@ import { Ground } from "../libs/objClass/ground"
 import { Player } from "../libs/objClass/player"
 import Models from '../components/objs/models'
 import Collisions from "../components/objs/Collisions"
-import { Ui } from '../components/controls/UIs'
+import { Ui } from '../components/UI/UIs'
 import Pointlock from "../components/controls/PointerLockControls"
 import { Lights } from "../components/objs/lights"
 import { Effects } from '../libs/objClass/effect'

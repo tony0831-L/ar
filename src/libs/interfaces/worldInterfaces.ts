@@ -2,11 +2,11 @@ import { modelInfo , lightInfo , collisionInfo } from "./worldInfo"
 
 export class Light implements lightInfo{
     _id!: string
-    decay!: number
+    decay!: number|string
     type!: string
     color!: string
-    intensity!: number
-    position!: number[]
+    intensity!: number|string
+    position!: Array<number|string>
     Shadow!: boolean
     constructor(info:lightInfo){
         this._id = info._id

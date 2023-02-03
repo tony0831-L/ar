@@ -1,12 +1,12 @@
 import { Canvas } from "@react-three/fiber"
 import { KeyboardControls, Preload, Stars, } from "@react-three/drei"
 import { VRButton, XR } from '@react-three/xr'
-import { Physics } from "@react-three/rapier"
+import { Debug, Physics } from "@react-three/rapier"
 import { Ground } from "../libs/objClass/ground"
 // import { Player } from "../libs/player"
 import { ModelsEditor } from '../components/editor/modelsEditor'
 import Collisions from "../components/objs/Collisions"
-import { Ui } from '../components/controls/UIs'
+import { Ui } from '../components/UI/UIs'
 import { FlyControl } from "../components/controls/FlyControls"
 import { LightsEditor } from "../components/editor/lightsEditor"
 import { Effects } from '../libs/objClass/effect'
@@ -40,7 +40,7 @@ export default function Editor(path: path) {
 
     return (
         <>
-            <Ui {...{ progress: loading }} />
+            <Ui {...{ progress: loading , world:world }} />
             <VRButton />
             {world ?
                 <Canvas shadows camera={{ fov: 70 }} gl={{ antialias: true }}>
@@ -58,6 +58,7 @@ export default function Editor(path: path) {
                             {/* @ts-ignore */}
                             <Effects />
                             <Physics gravity={[0, 0, 0]}>
+                                <Debug />
                                 <ModelsEditor {...{ models: world.models, setLoading: setLoading }} />
                                 <LightsEditor {...{}} />
                                 <Ground />

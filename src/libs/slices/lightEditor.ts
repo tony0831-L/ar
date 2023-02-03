@@ -13,23 +13,14 @@ export const lightEditorSlice = createSlice({
             state.info = action.payload
             console.log("setLightInfo")
         },
-        cleanLight: (state, action: PayloadAction<[]>)=>{
-            state.info = action.payload
-            console.log("clean")
-        },
-        lightOff:(state)=>{
+        setLightInfoByID: (state, action: PayloadAction<{obj:Light,index:number}>) => {
+            state.info[action.payload.index] = action.payload.obj
             state.id = nanoid()
-            state.info.forEach(light=>{
-                light.intensity = 0
-                // temp.push(light)
-            })
-            // state.info = []
-            // state.info = temp
-        }
+        },
     },
 });
 
-export const { setLightInfo , cleanLight , lightOff } = lightEditorSlice.actions
+export const { setLightInfo,setLightInfoByID } = lightEditorSlice.actions
 
 export const selectAllLights = (state:any) => state['lightEditor'].info
 export const selectLightId = (state:any) => state['lightEditor'].id
