@@ -1,7 +1,8 @@
 import { ReactNode, useState } from "react";
 import { Collision, Light, Model } from "../../libs/interfaces/worldInterfaces"
-import { setLightInfo } from '../../libs/slices/lightEditor';
 import { ChevronDown, ChevronRight } from 'react-bootstrap-icons';
+import { useDispatch } from "react-redux";
+import { setModelInfoByIndex } from "../../libs/slices/modelEditor";
 
 export const ModelsEditor: React.FC<{
   model: Model[], Selector: React.Dispatch<React.SetStateAction<{ obj: Light, index: number } | { obj: Model, index: number } | { obj: Collision, index: number } | undefined>>
@@ -25,25 +26,30 @@ export const ModelsEditor: React.FC<{
     )
   }
 
-export const ModelProps = (Obj: Model) => {
-  const [name, setName] = useState<string>(Obj.name);
-  const [type, setType] = useState<string>(Obj.type);
-  const [url, setUrl] = useState<string>(Obj.url);
-  const [anime, setAnime] = useState<string | null>(Obj.anime ? Obj.anime : "no anime");
-  const [scale, setScale] = useState<number>(Obj.scale);
-  const [position, setPosition] = useState<number[]>(Obj.position);
-  const [rotation, setRotation] = useState<number[]>(Obj.rotation);
-  
+export const ModelProps = (Obj: Model, index: number) => {
+
+  const dispatch = useDispatch()
+  const [Model, setModel] = useState<Model>(Obj);
+  const [re, reload] = useState<boolean>(false);
+
+  const update = () => {
+    dispatch(setModelInfoByIndex({
+      obj: Model,
+      index: index
+    }))
+    reload(!re)
+  }
+
   return (
     <div id="modelDom" className="propsDom">
       <div className="prop">_id: <p>{Obj._id}</p></div>
-      <div className="prop">name: <input type="text" value={name} onChange={(e) => { setName(e.target.value) }} /></div>
-      <div className="prop">type: <input type="text" value={type} onChange={(e) => { setType(e.target.value) }} /></div>
-      <div className="prop">url: <input type="text" value={url} onChange={(e) => { setUrl(e.target.value) }} /></div>
-      <div className="prop">anime: <input type="text" value={anime ? anime : "no Anime"} onChange={(e) => { setAnime(e.target.value) }} /></div>
-      <div className="prop">scale: <input type="text" value={scale} onChange={(e) => { setScale(Number(e.target.value)) }} /></div>
-      <div className="ArrayProp">position: <input type="text" value={position[0]} onChange={(e) => { setPosition([Number(e.target.value), position[1], position[2]]) }} />,<input type="text" value={position[1]} onChange={(e) => { setPosition([position[0], Number(e.target.value), position[2]]) }} />,<input type="text" value={position[2]} onChange={(e) => { setPosition([position[0], position[1], Number(e.target.value)]) }} /></div>
-      <div className="ArrayProp">rotation: <input type="text" value={rotation[0]} onChange={(e) => { setRotation([Number(e.target.value), rotation[1], rotation[2]]) }} />,<input type="text" value={rotation[1]} onChange={(e) => { setRotation([rotation[0], Number(e.target.value), rotation[2]]) }} />,<input type="text" value={rotation[2]} onChange={(e) => { setRotation([rotation[0], rotation[1], Number(e.target.value)]) }} /></div>
+      <div className="prop">name: <input type="text" value={Obj.name} onChange={(e) => { Obj.name = e.target.value }} onBlur={()=>{update()}} /></div>
+      <div className="prop">type: <input type="text" value={Obj.type} onChange={(e) => { Obj.type = e.target.value }} onBlur={()=>{update()}} /></div>
+      <div className="prop">url: <input type="text" value={Obj.url} onChange={(e) => { Obj.url = e.target.value }} onBlur={()=>{update()}} /></div>
+      <div className="prop">anime: <input type="text" value={Obj.anime ? Obj.anime : ""} onChange={(e) => { Obj.anime = e.target.value;update() }} onBlur={()=>{update()}} /></div>
+      <div className="prop">scale: <input type="text" value={Obj.scale} onChange={(e) => { Obj.scale = e.target.value ;update()}} onBlur={()=>{update()}}/></div>
+      <div className="ArrayProp">position: <input type="text" value={Obj.position[0]} onChange={(e) => { Obj.position = ([e.target.value, Obj.position[1], Obj.position[2]]); update() }} />,<input type="text" value={Obj.position[1]} onChange={(e) => { Obj.position = ([Obj.position[0], e.target.value, Obj.position[2]]); update() }} />,<input type="text" value={Obj.position[2]} onChange={(e) => { Obj.position = ([Obj.position[0], Obj.position[1], e.target.value]); update() }} /></div>
+      <div className="ArrayProp">rotation: <input type="text" value={Obj.rotation[0]} onChange={(e) => { Obj.rotation = ([e.target.value, Obj.rotation[1], Obj.rotation[2]]); update() }} />,<input type="text" value={Obj.rotation[1]} onChange={(e) => { Obj.rotation = ([Obj.position[0], e.target.value, Obj.rotation[2]]); update() }} />,<input type="text" value={Obj.rotation[2]} onChange={(e) => { Obj.rotation = ([Obj.rotation[0], Obj.rotation[1], e.target.value]); update() }} /></div>
     </div>
   )
 }

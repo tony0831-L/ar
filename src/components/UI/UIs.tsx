@@ -6,22 +6,25 @@ import { CollisionsEditor } from "./CollisionEditor"
 import { EditorView } from "./EditorView"
 import { useState } from "react"
 
-export const Ui: React.FC<{ progress: string, world: World | undefined }> = (info: { progress: string, world: World | undefined }) => {
+export const Ui: React.FC<{progress: string,world: World | undefined , DebugMode:boolean ,setDebugMode:React.Dispatch<React.SetStateAction<boolean>>}> = (info: {progress: string , world: World | undefined , DebugMode:boolean , setDebugMode:React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [select, Selector] = useState< {obj:Light , index:number} | {obj:Model , index:number} | {obj:Collision , index:number} >();
-  return (
+    return (
     <div id="EditorContainer">
       <div id="UI">
         <Stats />
         <p>{info.progress}</p>
         <LightsEditor light={info.world ? info.world.lights : []} Selector={Selector} />
-        <ModelsEditor model={info.world ? info.world.models : []} Selector={Selector}/>
-        <CollisionsEditor collision={info.world ? info.world.collisions : []} Selector={Selector}/>
+        <ModelsEditor model={info.world ? info.world.models : []} Selector={Selector} />
+        <CollisionsEditor collision={info.world ? info.world.collisions : []} Selector={Selector} />
         <div id="editorOverlayBtn" className="editorDom">
           click to control camera
         </div>
+        <div id="editorOverlayBtn" className="editorDom" onClick={()=>{info.setDebugMode(!info.setDebugMode)}}>
+          click to enbale debugMode
+        </div>
       </div>
-      <EditorView Obj={select}/>
+      <EditorView Obj={select} />
     </div>
-  )
+    )
 }
 

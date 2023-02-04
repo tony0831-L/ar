@@ -2,6 +2,7 @@ import { ReactNode, useState } from "react";
 import { Collision, Light, Model } from "../../libs/interfaces/worldInterfaces"
 import { setLightInfo } from '../../libs/slices/lightEditor';
 import { ChevronDown, ChevronRight } from 'react-bootstrap-icons';
+import { useDispatch } from "react-redux";
 
 export const CollisionsEditor: React.FC<{
   collision: Collision[],
@@ -27,20 +28,27 @@ export const CollisionsEditor: React.FC<{
     )
   }
 
-export const CollisionProps = (Obj: Collision) => {
-  const [clickable, setClickable] = useState<boolean>(Obj.clickable);
-  const [scale, setScale] = useState<number[]>(Obj.scale);
-  const [position, setPosition] = useState<number[]>(Obj.position);
-  const [rotation, setRotation] = useState<number[]>(Obj.rotation);
-  const [material, setMaterial] = useState<string | null>(Obj.material?Obj.material:"transparent");
+export const CollisionProps = (Obj: Collision,index:number) => {
+  const dispatch = useDispatch()
+  const [Collision, setCollision] = useState<Collision>(Obj);
+  const [re, reload] = useState<boolean>(false);
+
+  const update = () => {
+    // dispatch(setModelInfoByIndex({
+    //   obj: Model,
+    //   index: index
+    // }))
+    reload(!re)
+  }
+
   return (
     <div id="collisionDom" className="propsDom">
       <div className="prop">_id: <p>{Obj._id}</p></div>
-      <div className="prop">clickable: {clickable?<input type = "checkbox" checked onChange={()=>{setClickable(false)}} />:<input type = "checkbox" onChange={()=>{setClickable(true)}} />}</div>
-      <div className="ArrayProp">scale: <input type="text" value={scale[0]} onChange={(e)=>{setScale([Number(e.target.value),scale[1],scale[2]])}}/>,<input type="text" value={scale[1]} onChange={(e)=>{setScale([scale[0],Number(e.target.value),scale[2]])}}/>,<input type="text" value={scale[2]} onChange={(e)=>{setScale([scale[0],scale[1],Number(e.target.value)])}}/></div>
-      <div className="ArrayProp">position: <input type="text" value={position[0]} onChange={(e)=>{setPosition([Number(e.target.value),position[1],position[2]])}}/>,<input type="text" value={position[1]} onChange={(e)=>{setPosition([position[0],Number(e.target.value),position[2]])}}/>,<input type="text" value={position[2]} onChange={(e)=>{setPosition([position[0],position[1],Number(e.target.value)])}}/></div>
-      <div className="ArrayProp">rotation: <input type="text" value={rotation[0]} onChange={(e)=>{setRotation([Number(e.target.value),rotation[1],rotation[2]])}}/>,<input type="text" value={rotation[1]} onChange={(e)=>{setRotation([rotation[0],Number(e.target.value),rotation[2]])}}/>,<input type="text" value={rotation[2]} onChange={(e)=>{setRotation([rotation[0],rotation[1],Number(e.target.value)])}}/></div>
-      <div className="prop">material: <input type="text" value={material?material:"transparent"} onChange={(e)=>{setMaterial(e.target.value)}}/></div>
+      <div className="prop">clickable: {Obj.clickable?<input type = "checkbox" checked onChange={()=>{Obj.clickable = false}} />:<input type = "checkbox" onChange={()=>{Obj.clickable = true}} />}</div>
+      <div className="ArrayProp">scale: <input type="text" value={Obj.scale[0]} onChange={(e) => { Obj.scale = ([e.target.value, Obj.scale[1], Obj.scale[2]]); update() }} />,<input type="text" value={Obj.scale[1]} onChange={(e) => { Obj.scale = ([Obj.scale[0], e.target.value, Obj.scale[2]]); update() }} />,<input type="text" value={Obj.scale[2]} onChange={(e) => { Obj.scale = ([Obj.scale[0], Obj.scale[1], e.target.value]); update() }} /></div>
+      <div className="ArrayProp">position: <input type="text" value={Obj.position[0]} onChange={(e) => { Obj.position = ([e.target.value, Obj.position[1], Obj.position[2]]); update() }} />,<input type="text" value={Obj.position[1]} onChange={(e) => { Obj.position = ([Obj.position[0], e.target.value, Obj.position[2]]); update() }} />,<input type="text" value={Obj.position[2]} onChange={(e) => { Obj.position = ([Obj.position[0], Obj.position[1], e.target.value]); update() }} /></div>
+      <div className="ArrayProp">rotation: <input type="text" value={Obj.rotation[0]} onChange={(e) => { Obj.rotation = ([e.target.value, Obj.rotation[1], Obj.rotation[2]]); update() }} />,<input type="text" value={Obj.rotation[1]} onChange={(e) => { Obj.rotation = ([Obj.position[0], e.target.value, Obj.rotation[2]]); update() }} />,<input type="text" value={Obj.rotation[2]} onChange={(e) => { Obj.rotation = ([Obj.rotation[0], Obj.rotation[1], e.target.value]); update() }} /></div>
+      <div className="prop">material: <input type="text" value={Obj.material?Obj.material:"transparent"} onChange={(e)=>{ Obj.material = e.target.value }}/></div>
     </div>
   )
 }

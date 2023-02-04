@@ -11,13 +11,13 @@ export const EditorView: React.FC<{
 }) => {
         const Obj: React.FC<{ Obj: Light | Model | Collision | undefined , index:number }> = (info: { Obj: Light | Model | Collision | undefined , index:number }) => {
             if (info.Obj instanceof Light) {
-                return LightProps(info.Obj,info.index)
+                return LightProps(info.Obj , info.index)
             }
             if (info.Obj instanceof Model) {
-                return ModelProps(info.Obj)
+                return ModelProps(info.Obj , info.index)
             }
             if (info.Obj instanceof Collision) {
-                return CollisionProps(info.Obj)
+                return CollisionProps(info.Obj , info.index)
             }
             return (
                 <></>

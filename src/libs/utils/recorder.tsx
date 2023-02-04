@@ -7,7 +7,7 @@ import { encode } from 'base64-arraybuffer'
 import React from 'react';
 
 
-export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction<string | undefined>> }> = (info: { setBuffer: React.Dispatch<React.SetStateAction<string | undefined>> }) => {
+export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction<string | undefined>>}> = (info: {setBuffer: React.Dispatch<React.SetStateAction<string | undefined>>}) => {
 
     const ref = useRef<HTMLDivElement>(null)
     const [recording, setRecording] = useState<boolean>(false)
@@ -20,7 +20,6 @@ export const Recorder: React.FC<{ setBuffer: React.Dispatch<React.SetStateAction
 
     const onClick = () => {
         if (recording) {
-            console.log(id)
             dispatch(stop((buffer: ArrayBuffer) => {
                 const out = encode(buffer)
                 asyncPost('https://dev.ethci.org/dialog/audio', {

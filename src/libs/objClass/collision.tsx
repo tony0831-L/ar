@@ -16,9 +16,9 @@ export function Collision(props:collisionInfo) {
             <RigidBody colliders="cuboid" type="fixed">
                 <mesh
                     ref={meshRef}
-                    scale={[props.scale[0],props.scale[1],props.scale[2]]}
-                    position ={[props.position[0],props.position[1],props.position[2]]}
-                    rotation = {[props.rotation[0],props.rotation[1],props.rotation[2]]}
+                    scale={[Number(props.scale[0]),Number(props.scale[1]),Number(props.scale[2])]}
+                    position ={[Number(props.scale[0]),Number(props.scale[1]),Number(props.scale[2])]}
+                    rotation = {[Number(props.scale[0]),Number(props.scale[1]),Number(props.scale[2])]}
                     onClick={(event)=>{}}
                     onPointerOver={(event)=>{
                         onPointerOver(event)

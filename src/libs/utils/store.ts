@@ -4,6 +4,7 @@ import worldinfo from '../slices/worldinfo';
 import lightEditor from '../slices/lightEditor';
 import modelEditor from '../slices/modelEditor';
 import RecorderSlice from '../slices/RecorderSlice';
+import CollisionsEditor from '../slices/CollisionsEditor';
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     worldinfo:worldinfo,
     lightEditor:lightEditor,
     modelEditor:modelEditor,
-    recorderSlice:RecorderSlice
+    recorderSlice:RecorderSlice,
+    collisionsEditor:CollisionsEditor
   },
 });
 

@@ -1,5 +1,5 @@
 import { useGLTF, useTexture, useAnimations, useProgress } from "@react-three/drei"
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { modelInfo } from "../interfaces/worldInfo";
 
 const url = 'https://dev.ethci.org/model/getModel/?path='
@@ -32,6 +32,7 @@ export function GlbModel(info: modelInfo) {
     const objRef = useRef()
     const { nodes, animations, scene } = useGLTF(`${url}${info.url}`)
     const { ref, actions, names } = useAnimations(animations, objRef)
+    const [prevAnime,setPrevAnime] = useState<string>()
 
     const onPointerOut = info.onPointerOut==null? ()=>{}:info.onPointerOut
     const onPointerOver = info.onPointerOver==null? ()=>{}:info.onPointerOver
@@ -40,9 +41,16 @@ export function GlbModel(info: modelInfo) {
     useEffect(() => {
         console.log(actions)
         if (info.anime) {
-            actions[info.anime]?.play()
+            if(prevAnime){
+                actions[prevAnime]?.stop()
+                actions[info.anime]?.play()
+                setPrevAnime(info.anime)
+            }else{
+                actions[info.anime]?.play()
+                setPrevAnime(info.anime)
+            }
         }
-    }, [])
+    }, [info.anime])
 
     scene.traverse(obj => {
         obj.castShadow = true; obj.receiveShadow = true

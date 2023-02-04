@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react"
 import * as THREE from 'three'
 
 
-export const Sound: React.FC<{ raw:string }> = (info: { raw:string }) => {
+export const Sound: React.FC<{ raw:string , setAnime: React.Dispatch<React.SetStateAction<string>>}> = (info: { raw:string, setAnime: React.Dispatch<React.SetStateAction<string>> }) => {
     console.log(info.raw)
     const sound = useRef<THREE.PositionalAudio>(null)
     const { camera } = useThree()
@@ -16,8 +16,9 @@ export const Sound: React.FC<{ raw:string }> = (info: { raw:string }) => {
             sound.current.setRefDistance(1)
             sound.current.play()
             camera.add(listener)
+            info.setAnime("Talking")
         }
     }, [info.raw])
-    return <positionalAudio ref={sound} args={[listener]} />
+    return <positionalAudio ref={sound} args={[listener]} onEnded={()=>{info.setAnime("Idle");sound.current?.stop()}} loop={false}/>
     // return null
   }

@@ -1,3 +1,5 @@
+import { Euler } from "three"
+
 export interface lightInfo{
     _id: string
     decay: number|string
@@ -13,9 +15,9 @@ export interface modelInfo{
     _id: string
     type:string
     url: string
-    scale:number
-    position: Array<number>
-    rotation: Array<number>
+    scale:number|string
+    position: Array<number|string>
+    rotation: Array<number|string> 
     name: string
     anime:string | null
     onPointerOver:Function | null
@@ -26,9 +28,9 @@ export interface modelInfo{
 export interface collisionInfo{
     _id: string
     clickable:boolean,
-    scale:Array<number>
-    position:Array<number>
-    rotation:Array<number>
+    scale:Array<number|string>
+    position:Array<number|string>
+    rotation:Array<number|string>
     onClick:Function | null
     onPointerOver:Function | null
     onPointerOut:Function | null

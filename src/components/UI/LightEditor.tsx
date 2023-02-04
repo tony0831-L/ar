@@ -2,7 +2,7 @@ import { ReactNode, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { Collision, Light, Model } from "../../libs/interfaces/worldInterfaces"
 import { ChevronDown, ChevronRight } from 'react-bootstrap-icons';
-import { setLightInfoByID } from "../../libs/slices/lightEditor";
+import { setLightInfoByIndex } from "../../libs/slices/lightEditor";
 
 export const LightsEditor: React.FC<{
   light: Light[],
@@ -35,7 +35,7 @@ export const LightProps = (Obj: Light,index:number) => {
   const [re,reload] = useState<boolean>(false);
  
   const update =()=>{
-    dispatch(setLightInfoByID({
+    dispatch(setLightInfoByIndex({
       obj:Light,
       index:index
     }))

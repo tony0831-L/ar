@@ -16,6 +16,7 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { setLightInfo } from "../libs/slices/lightEditor"
 import { setModelinfo } from "../libs/slices/modelEditor"
+import { setCollisioninfo } from "../libs/slices/CollisionsEditor"
 
 export interface path {
     url: string
@@ -25,6 +26,8 @@ export default function Editor(path: path) {
     const dispatch = useDispatch()
     const [world, setworld] = useState<World>()
     const [loading, setLoading] = useState<string>("fetching")
+    const [debugMode, setDebugMode] = useState<boolean>(false)
+    const [ outLine,setOutLine ] = useState<{}>()
     if (!world) {
         asyncGet(path.url).then(info => {
             const ownWorld: World = new World({
@@ -35,12 +38,13 @@ export default function Editor(path: path) {
             setworld(ownWorld)
             dispatch(setLightInfo(ownWorld.lights))
             dispatch(setModelinfo(ownWorld.models))
+            dispatch(setCollisioninfo(ownWorld.collisions))
         })
     }
 
     return (
         <>
-            <Ui {...{ progress: loading , world:world }} />
+            <Ui {...{ progress: loading, world: world, DebugMode: debugMode, setDebugMode: setDebugMode }} />
             <VRButton />
             {world ?
                 <Canvas shadows camera={{ fov: 70 }} gl={{ antialias: true }}>
@@ -58,8 +62,15 @@ export default function Editor(path: path) {
                             {/* @ts-ignore */}
                             <Effects />
                             <Physics gravity={[0, 0, 0]}>
-                                <Debug />
-                                <ModelsEditor {...{ models: world.models, setLoading: setLoading }} />
+                                {
+                                    debugMode ?
+                                        <>
+                                            <Debug />
+                                            <gridHelper args={[100, 100, '#fff', '#17141F']} />
+                                        </>
+                                        : null
+                                }
+                                <ModelsEditor {...{ setLoading: setLoading }} />
                                 <LightsEditor {...{}} />
                                 <Ground />
                                 <Collisions {...{ collisions: world.collisions }} />

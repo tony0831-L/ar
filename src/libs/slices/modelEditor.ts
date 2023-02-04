@@ -13,38 +13,14 @@ export const modelEditorSlice = createSlice({
             state.info = action.payload
             console.log("setModelinfo")
         },
-        cleanModel: (state, action: PayloadAction<[]>) => {
-            state.info = action.payload
-            console.log("clean")
-        },
-        pushModel: (state) => {
-            state.info.push(new Model({
-                "type": "GLB",
-                "url": "lego_people/8/scene.glb",
-                "scale": 1.7,
-                "position": [
-                    2,
-                    2,
-                    0
-                ],
-                "rotation": [
-                    0,
-                    0,
-                    0
-                ],
-                "name": "ccc1",
-                "anime": "walk",
-                "_id": "63d28ac451ce9ac6948cb4eg",
-                "onClick":null,
-                "onPointerOut":null,
-                "onPointerOver":null
-            }))
+        setModelInfoByIndex: (state, action: PayloadAction<{obj:Model,index:number}>) => {
+            state.info[action.payload.index] = action.payload.obj
             state.id = nanoid()
-        }
+        },
     },
 });
 
-export const { setModelinfo, cleanModel, pushModel } = modelEditorSlice.actions
+export const { setModelinfo, setModelInfoByIndex } = modelEditorSlice.actions
 export const selectAllModels = (state: any) => state['modelEditor'].info
 export const selectModelId = (state: any) => state['modelEditor'].id
 export default modelEditorSlice.reducer
